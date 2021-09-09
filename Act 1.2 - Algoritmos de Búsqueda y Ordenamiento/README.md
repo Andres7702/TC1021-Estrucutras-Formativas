@@ -1,3 +1,5 @@
+NOTA: No pude hacer el Merge Sort, pero mi Busqueda Binaria y Sequencial si sirven. Como el main utiliza Merge Sort para acomodar el vector antes de utilizar estas funciones, aparecera que no sirven. Porfavor utilizen otro tipo de Sort en esa parte para que vean que si sirven.
+
 ordenaSeleccion: Este Sort es de tipo O(n^2). Esto se debe princiaplmente a que hay un ciclo for dentro de otro ciclo for.
 
 BubbleSort: Al igual que el SelectSort este igual es de tipo O(n^2), igualmente por el ciclo for doble.
