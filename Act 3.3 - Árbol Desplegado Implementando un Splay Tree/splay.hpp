@@ -21,9 +21,11 @@ public:
     Node<T>* find(T);
     Node<T>* remove(T);
     void removeChilds();
+    
     void inorder(std::stringstream&) const;
     void print_tree(std::stringstream&) const;
     void preorder(std::stringstream&) const;
+    
     Node<T>* splay(Node<T>*, Node<T>*);
 
     friend class SplayTree<T>;
@@ -106,7 +108,7 @@ Node<T>* Node<T>::remove(T val) {
         if (left != 0) {
             if (left->value == val) {
                 old = left;
-                if(old->left != 0 && old->right != 0){ // dos hijos sucesor
+                if(old->left != 0 && old->right != 0){
                     succ = left->succesor();
                     if (succ != 0) {
                         succ->left = old->left;
@@ -118,14 +120,14 @@ Node<T>* Node<T>::remove(T val) {
                             succ->right->parent = succ;
                     }
                     left = succ;
-                } else if (old->right != 0){ // solo hijo der
+                } else if (old->right != 0){
                     old->right->parent = left->parent;
                     left = old->right;
 
-                } else if (old->left != 0){ // solo hijo izq
+                } else if (old->left != 0){
                     old->left->parent = left->parent;
                     left = old->left;
-                } else {  // hoja
+                } else {
                     left = 0;
                 }
                 delete old;
@@ -138,7 +140,7 @@ Node<T>* Node<T>::remove(T val) {
         if (right != 0) {
             if (right->value == val) {
                 old = right;
-                if(old->left != 0 && old->right != 0){ // dos hijos sucesor
+                if(old->left != 0 && old->right != 0){
                     succ = right->succesor();
                     if (succ != 0) {
                         succ->left = old->left;
@@ -150,14 +152,14 @@ Node<T>* Node<T>::remove(T val) {
                             succ->right->parent = succ;
                     }
                     right = succ;
-                } else if (old->right != 0){ // solo hijo der
+                } else if (old->right != 0){
                     old->right->parent = right->parent;
                     right = old->right;
 
-                } else if (old->left != 0){ // solo hijo izq
+                } else if (old->left != 0){
                     old->left->parent = right->parent;
                     right = old->left;
-                } else {  // hoja
+                } else {
                     right = 0;
                 }
                 delete old;
@@ -233,16 +235,13 @@ Node<T>* Node<T>::splay(Node<T>* root, Node<T>* x){
         }else{
             Node<T>*p = x->parent;
             Node<T>*g = p->parent;
-            if(p->left && g->left &&
-                x->value == p->left->value && p->value == g->left->value){
+            if(p->left && g->left && x->value == p->left->value && p->value == g->left->value){
                 rot_right(g);
                 rot_right(p);
-            }else if(p->right && g->right &&
-                x->value == p->right->value && p->value == g->right->value){
+            }else if(p->right && g->right && x->value == p->right->value && p->value == g->right->value){
                 rot_left(g);
                 rot_left(p);
-            }else    if(p->left && g->right &&
-                x->value == p->left->value && p->value == g->right->value){
+            }else    if(p->left && g->right && x->value == p->left->value && p->value == g->right->value){
                 rot_right(p);
                 rot_left(g);
             }else{
@@ -310,30 +309,35 @@ private:
 public:
     SplayTree();
     ~SplayTree();
+    int siz = 0;
+    
     bool empty() const;
     void add(T);
     bool find(T);
     void remove(T);
     void removeAll();
     int size();
+    
     std::string inorder() const;
     std::string print_tree() const;
     std::string preorder() const;
-    int siz = 0;
 };
 
 template <class T>
 SplayTree<T>::SplayTree() : root(0) {}
+
 
 template <class T>
 SplayTree<T>::~SplayTree() {
     removeAll();
 }
 
+
 template <class T>
 bool SplayTree<T>::empty() const {
     return (root == 0);
 }
+
 
 template<class T>
 void SplayTree<T>::add(T val) {
@@ -344,6 +348,18 @@ void SplayTree<T>::add(T val) {
             root = root->splay(root,added);
     } else {
         root = new Node<T>(val);
+    }
+}
+
+
+template <class T>
+bool SplayTree<T>::find(T val){
+    if (root != 0) {
+        Node<T>* found = root->find(val);
+        root = root->splay(root,found);
+        return (root->value == val);
+    } else {
+        return false;
     }
 }
 
@@ -381,23 +397,9 @@ void SplayTree<T>::removeAll() {
 }
 
 template <class T>
-bool SplayTree<T>::find(T val){
-    if (root != 0) {
-        Node<T>* found = root->find(val);
-        root = root->splay(root,found);
-        return (root->value == val);
-    } else {
-        return false;
-    }
-}
-
-template <class T>
 int SplayTree<T>::size(){
     return siz;
 }
-
-
-
 
 
 template <class T>
