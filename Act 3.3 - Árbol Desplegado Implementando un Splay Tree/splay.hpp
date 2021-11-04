@@ -32,7 +32,7 @@ public:
 };
 
 template <class T>
-Node<T>::Node(T val) : value(val), left(0), right(0), parent(0) {}
+Node<T>::Node(T val) : value(val), left(0), right(0), parent(0) { }
 
 template <class T>
 Node<T>::Node(T val, Node<T> *le, Node<T> *ri, Node<T> *p)
